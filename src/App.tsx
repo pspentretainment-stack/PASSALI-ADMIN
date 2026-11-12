@@ -1,3 +1,4 @@
+import { supabase } from "./supabase";
 import { useState } from "react";
 import AdminLogin from "./AdminLogin";
 import {
@@ -39,7 +40,12 @@ function App() {
 
   const [activePage, setActivePage] = useState("Visão geral");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+async function handleLogout() {
+  await supabase.auth.signOut();
+  setAdminRole(null);
+  setAdminEmail("");
+  setActivePage("Visão geral");
+}
   if (!adminRole) {
     return (
       <AdminLogin
@@ -165,6 +171,14 @@ function App() {
   <ChevronDown size={16} />
 </div>
           </div>
+          <button
+  className="icon-button"
+  onClick={handleLogout}
+  aria-label="Terminar sessão"
+  title="Terminar sessão"
+>
+  <LogOut size={19} />
+</button>
         </header>
 
         <div className="page-content">
