@@ -3,9 +3,11 @@ name: Passali Admin CI
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -16,7 +18,7 @@ jobs:
       - name: Obter código
         uses: actions/checkout@v4
 
-      -      - name: Configurar Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -26,3 +28,4 @@ jobs:
 
       - name: Compilar Passali Admin
         run: npx vite build
+
