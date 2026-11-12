@@ -31,9 +31,25 @@ const navigation = [
   { label: "Definições", icon: Settings },
 ];
 
+type AdminRole = "super_admin" | "admin";
+
 function App() {
+  const [adminRole, setAdminRole] = useState<AdminRole | null>(null);
+  const [adminEmail, setAdminEmail] = useState("");
+
   const [activePage, setActivePage] = useState("Visão geral");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!adminRole) {
+    return (
+      <AdminLogin
+        onLogin={(role, email) => {
+          setAdminRole(role);
+          setAdminEmail(email);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="admin-shell">
@@ -136,14 +152,18 @@ function App() {
             <button className="icon-button" aria-label="Notificações">
               <Bell size={19} />
             </button>
-            <div className="admin-profile">
-              <div className="profile-avatar">PS</div>
-              <div>
-                <strong>PSP Administration</strong>
-                <span>Área administrativa</span>
-              </div>
-              <ChevronDown size={16} />
-            </div>
+         <div className="admin-profile">
+  <div className="profile-avatar">
+    {adminEmail.slice(0, 2).toUpperCase()}
+  </div>
+  <div>
+    <strong>{adminEmail}</strong>
+    <span>
+      {adminRole === "super_admin" ? "Super Admin" : "Admin"}
+    </span>
+  </div>
+  <ChevronDown size={16} />
+</div>
           </div>
         </header>
 
